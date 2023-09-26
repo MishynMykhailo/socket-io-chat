@@ -10,29 +10,37 @@
     />
   </head>
   <body>
-    <div class="container">
-      <h1>Socket.IO Chat</h1>
-      <div>
-        <input
-          id="username"
-          class="form-control"
-          placeholder="Enter your username"
-        />
-        <button id="set-username" class="btn-primary">Set Username</button>
-      </div>
-      <ul id="messages"></ul>
-      <form>
-        <div class="input-group">
-          <input
-            id="input"
-            class="form-control"
-            autocomplete="off"
-            placeholder="Type your message"
-          />
-          <button class="btn-primary">Send</button>
+    <main class="container">
+      <div class="main__interface">
+        <div class="user-online__block">
+          <h2>Users Online</h2>
+          <ul class="users__list"></ul>
         </div>
-      </form>
-    </div>
+        <div class="chat__block">
+          <h1>Socket.IO Chat</h1>
+          <div >
+            <input
+              id="username"
+              class="form-control"
+              placeholder="Enter your username"
+            />
+            <button id="set-username" class="btn-primary">Set Username</button>
+          </div>
+          <ul id="messages"></ul>
+          <form>
+            <div class="input-group">
+              <input
+                id="input"
+                class="form-control"
+                autocomplete="off"
+                placeholder="Type your message"
+              />
+              <button class="btn-primary">Send</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
 
     <script src="/socket.io/socket.io.js"></script>
     <script src="./js/index.js"></script>

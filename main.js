@@ -17,7 +17,6 @@ app.get("/", (req, res) => {
 
 // Словарь для хранения имен пользователей
 const users = {};
-
 // Запуск при подключении клиента
 io.on("connection", (socket) => {
   console.log("New websocket connection");
@@ -25,7 +24,15 @@ io.on("connection", (socket) => {
   // Обработка события "set username" для установки имени пользователя
   socket.on("set username", (username) => {
     users[socket.id] = username;
-    io.emit("message", `${username} has joined the chat`);
+
+    const msg = "has joined the chat";
+    if (username) {
+      io.emit("message", { user: username, msg: msg });
+      io.emit("usersOnline", users);
+    } else {
+      io.emit("message", { user: "Anonymous", msg: "has joined the chat" });
+      delete users[socket.id];
+    }
   });
 
   // Обработка события "chat message" для отправки сообщений
@@ -34,15 +41,22 @@ io.on("connection", (socket) => {
     const username = users[socket.id];
 
     // Отправка сообщения с именем пользователя
-    io.emit("message", `${username}: ${msg}`);
+    io.emit("message", { user: username, msg: msg });
   });
 
   // Обработка отключения клиента
   socket.on("disconnect", () => {
     const username = users[socket.id];
+  
+    const msg = "has left the chat";
     if (username) {
-      io.emit("message", `${username} has left the chat`);
+      io.emit("message", { user: username, msg: msg });
       delete users[socket.id];
+      io.emit("usersOnline", users);
+    } else {
+      io.emit("message", { user: "Anonymous", msg: "has left the chat" });
+      delete users[socket.id];
+      
     }
   });
 });
