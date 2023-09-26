@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Socket.IO Chat</title>
+    <link rel="stylesheet" href="./css/styles.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Socket.IO Chat</h1>
+      <div>
+        <input
+          id="username"
+          class="form-control"
+          placeholder="Enter your username"
+        />
+        <button id="set-username" class="btn-primary">Set Username</button>
+      </div>
+      <ul id="messages"></ul>
+      <form>
+        <div class="input-group">
+          <input
+            id="input"
+            class="form-control"
+            autocomplete="off"
+            placeholder="Type your message"
+          />
+          <button class="btn-primary">Send</button>
+        </div>
+      </form>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="./js/index.js"></script>
+  </body>
+</html>
