@@ -1,0 +1,23 @@
+{
+  "name": "socket-io-chat",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MishynMykhailo/socket-io-chat.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MishynMykhailo/socket-io-chat/issues"
+  },
+  "homepage": "https://github.com/MishynMykhailo/socket-io-chat#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "socket.io": "^4.7.2"
+  }
+}
