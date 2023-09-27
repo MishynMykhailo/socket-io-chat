@@ -61,8 +61,10 @@ body {
   margin: 0;
   padding: 0;
 }
-.main__interface {
-  display: flex;
+@media screen and (min-width: 749px) {
+  .main__interface {
+    display: flex;
+  }
 }
 /* Стили для контейнера */
 .container {
@@ -74,12 +76,13 @@ body {
   max-width: 800px;
 }
 .user-online__block {
+  margin-bottom: 20px;
 }
 .user__item {
   display: flex;
   overflow: hidden;
   text-align: center;
-    align-items: center;
+  align-items: center;
 }
 .user__item-online {
   width: 10px;
@@ -133,6 +136,9 @@ body {
 }
 .item__time {
   margin-left: auto;
+}
+.item__text {
+  word-break: break-all;
 }
 /* Стили для полей ввода и кнопок */
 .form-control {

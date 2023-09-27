@@ -7,60 +7,42 @@ const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
 
-// set static folder
-app.use(express.static(path.join(__dirname, "frontend")));
+const PORT = process.env.PORT || 3000;
 
-// Отправка HTML-страницы для клиентов
+// Set static folder
+const staticFolderPath = path.join(__dirname, "frontend");
+app.use(express.static(staticFolderPath));
+
+// Send HTML page to clients
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "frontend", "index.html"));
+  res.sendFile(path.join(staticFolderPath, "index.html"));
 });
 
-// Словарь для хранения имен пользователей
 const users = {};
-// Запуск при подключении клиента
+
+function broadcastMessage(user, msg) {
+  io.emit("message", { user, msg });
+  io.emit("usersOnline", users);
+}
+
 io.on("connection", (socket) => {
   console.log("New websocket connection");
 
-  // Обработка события "set username" для установки имени пользователя
   socket.on("set username", (username) => {
-    users[socket.id] = username;
-
-    const msg = "has joined the chat";
-    if (username) {
-      io.emit("message", { user: username, msg: msg });
-      io.emit("usersOnline", users);
-    } else {
-      io.emit("message", { user: "Anonymous", msg: "has joined the chat" });
-      delete users[socket.id];
-    }
+    users[socket.id] = username || "Anonymous";
+    broadcastMessage(users[socket.id], "has joined the chat");
   });
 
-  // Обработка события "chat message" для отправки сообщений
   socket.on("chat message", (msg) => {
-    // Получение имени пользователя по ID сокета
-    const username = users[socket.id];
-
-    // Отправка сообщения с именем пользователя
-    io.emit("message", { user: username, msg: msg });
+    const username = users[socket.id] || "Anonymous";
+    broadcastMessage(username, msg);
   });
 
-  // Обработка отключения клиента
   socket.on("disconnect", () => {
-    const username = users[socket.id];
-  
-    const msg = "has left the chat";
-    if (username) {
-      io.emit("message", { user: username, msg: msg });
-      delete users[socket.id];
-      io.emit("usersOnline", users);
-    } else {
-      io.emit("message", { user: "Anonymous", msg: "has left the chat" });
-      delete users[socket.id];
-      
-    }
+    const username = users[socket.id] || "Anonymous";
+    delete users[socket.id];
+    broadcastMessage(username, "has left the chat");
   });
 });
-
-const PORT = process.env.PORT || 3000;
 
 server.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
